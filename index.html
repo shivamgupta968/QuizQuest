@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Interactive timed quiz app"><title>QuizQuest — Quiz App</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head>
+<body><main class="page"><header><a class="brand" href="#"><b>Q</b> QuizQuest</a><span>Test your knowledge</span></header>
+<section class="card"><div class="top"><span class="eyebrow">GENERAL KNOWLEDGE</span><span id="counter">Question 1 of 10</span></div><div class="track"><div id="progress"></div></div>
+<section id="quiz"><div class="meta"><span class="level">MEDIUM</span><span class="timer">● <span id="time">00:20</span></span></div><h1 id="question">Loading…</h1><div id="answers" class="answers"></div><p id="feedback" aria-live="polite"></p><div class="bottom"><small id="hint">Choose the best answer.</small><button id="next" disabled>Next question →</button></div></section>
+<section id="result" class="hidden"><div class="trophy">🏆</div><p class="eyebrow">QUIZ COMPLETED</p><h1 id="resultTitle">Great effort!</h1><p id="summary"></p><div class="scores"><div><b id="score">0/10</b><small>Your score</small></div><div><b id="percent">0%</b><small>Accuracy</small></div><div><b id="correct">0</b><small>Correct</small></div></div><button id="restart">Play again ↻</button></section></section>
+<footer><span>Made for curious minds</span><span>10 questions · 20 seconds each</span></footer></main></body></html>

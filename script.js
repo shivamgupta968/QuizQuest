@@ -1,0 +1,20 @@
+const questions=[
+{q:"Which language structures the content of a web page?",o:["CSS","HTML","Python","SQL"],a:1,e:"HTML defines the structure and meaning of web content."},
+{q:"Which CSS property changes text color?",o:["font-style","background","color","text-align"],a:2,e:"The color property sets the foreground color of text."},
+{q:"Which keyword declares a block-scoped variable?",o:["var","let","define","dim"],a:1,e:"let declares a variable limited to its block scope."},
+{q:"What does DOM stand for?",o:["Document Object Model","Data Order Method","Display Object Mode","Digital Ordinance Model"],a:0,e:"The DOM represents a document as objects scripts can access."},
+{q:"Which method selects an element by its ID?",o:["queryAll()","getElementById()","getClass()","selectId()"],a:1,e:"getElementById() returns the element with the matching ID."},
+{q:"Which event occurs when a user clicks a button?",o:["change","submit","click","hover"],a:2,e:"The click event fires when an element is clicked."},
+{q:"Which browser storage persists after closing the browser?",o:["sessionStorage","LocalStorage","Local variable","DOM only"],a:1,e:"LocalStorage persists data across browser sessions."},
+{q:"Which operator checks strict equality in JavaScript?",o:["=","==","===","!="],a:2,e:"=== compares value and type without coercion."},
+{q:"Which CSS layout is designed for one-dimensional layouts?",o:["Flexbox","Float","Table","Position"],a:0,e:"Flexbox arranges items in a row or column."},
+{q:"Which array method transforms each item into a new array?",o:["forEach()","map()","push()","pop()"],a:1,e:"map() returns a new array containing transformed items."}
+];
+let index=0,score=0,answered=false,remaining=20,timer;
+const $=id=>document.getElementById(id);
+function render(){clearInterval(timer);answered=false;remaining=20;const q=questions[index];$("counter").textContent=`Question ${index+1} of ${questions.length}`;$("progress").style.width=`${index/questions.length*100}%`;$("question").textContent=q.q;$("feedback").textContent="";$("feedback").className="";$("next").disabled=true;$("next").textContent=index===questions.length-1?"See results →":"Next question →";$("answers").replaceChildren();q.o.forEach((option,i)=>{const b=document.createElement("button");b.className="answer";b.innerHTML=`<span class="letter">${"ABCD"[i]}</span><span></span>`;b.querySelector("span:last-child").textContent=option;b.addEventListener("click",()=>choose(i));$("answers").append(b)});tick();timer=setInterval(()=>{remaining--;tick();if(remaining<=0){clearInterval(timer);if(!answered)choose(-1,true)}},1000)}
+function tick(){$("time").textContent=`00:${String(remaining).padStart(2,"0")}`;$("time").style.color=remaining<=5?"var(--red)":""}
+function choose(choice,timeout=false){if(answered)return;answered=true;clearInterval(timer);const q=questions[index];[...$("answers").children].forEach((b,i)=>{b.disabled=true;if(i===q.a)b.classList.add("correct");else if(i===choice)b.classList.add("wrong")});if(choice===q.a){score++;$("feedback").textContent=`Correct! ${q.e}`;$("feedback").className="good"}else{$("feedback").textContent=`${timeout?"Time is up!":"Not quite."} ${q.e}`;$("feedback").className="bad"}$("next").disabled=false}
+function results(){clearInterval(timer);$("quiz").classList.add("hidden");$("result").classList.remove("hidden");$("progress").style.width="100%";const pct=Math.round(score/questions.length*100);$("score").textContent=`${score}/${questions.length}`;$("percent").textContent=`${pct}%`;$("correct").textContent=score;$("resultTitle").textContent=pct>=80?"Excellent work!":pct>=50?"Good effort!":"Keep practising!";$("summary").textContent=`You answered ${score} out of ${questions.length} questions correctly.`;$("counter").textContent="Quiz complete"}
+$("next").addEventListener("click",()=>{if(!answered)return;if(++index===questions.length)results();else render()});
+$("restart").addEventListener("click",()=>{index=0;score=0;$("quiz").classList.remove("hidden");$("result").classList.add("hidden");render()});render();
